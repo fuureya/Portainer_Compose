@@ -21,6 +21,10 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - portainer_networks
+    command:
+      - --http-enabled
+      - --http-trusted-origin={WEB_DOMAIN}
+
     restart: unless-stopped
 
   database_mariadb:

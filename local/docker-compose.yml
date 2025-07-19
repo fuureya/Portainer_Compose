@@ -1,7 +1,7 @@
 services:
-  nginx:
+  local_portainer_nginx:
     image: nginx:alpine
-    container_name: portainer_nginx
+    container_name: local_portainer_nginx
     ports:
       - "80:80"
       - "443:443"
@@ -11,25 +11,22 @@ services:
       - portainer_networks
     restart: unless-stopped
 
-  portainer:
+  local_portainer:
     image: portainer/portainer-ce:latest
-    container_name: portainer
+    container_name: local_portainer
     ports:
       - "9443:9443"
+      - "9000:9000"
     volumes:
       - data:/data
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - portainer_networks
-    command:
-      - --http-enabled
-      - --http-trusted-origin={WEB_DOMAIN}
-
     restart: unless-stopped
 
-  database_mariadb:
+  local_database_mariadb:
     image: mariadb:latest
-    container_name: database_mariadb
+    container_name: local_database_mariadb
     ports:
       - "3306:3306"
     restart: always
@@ -43,9 +40,9 @@ services:
     networks:
       - portainer_networks
 
-  phpmyadmin:
+  local_phpmyadmin:
     image: phpmyadmin/phpmyadmin
-    container_name: phpmyadmin
+    container_name: local_phpmyadmin
     ports:
       - "8081:80"
     environment:
@@ -58,8 +55,8 @@ services:
     restart: unless-stopped
 
 volumes:
-  data:
-  mariadb:
+  local_data:
+  local_mariadb:
 
 networks:
-  portainer_networks:
+  local_portainer_networks:

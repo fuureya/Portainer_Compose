@@ -42,11 +42,11 @@ services:
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
-    container_name: pma_ukip
+    container_name: phpmyadmin
     ports:
       - "8081:80"
     environment:
-      PMA_HOST: db
+      PMA_HOST: database_mariadb
       MYSQL_ROOT_PASSWORD: root
     depends_on:
       - database_mariadb

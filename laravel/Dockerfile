@@ -3,8 +3,6 @@ FROM php:8.4-fpm-alpine
 ENV COMPOSER_ALLOW_SUPERUSER=1 \
     COMPOSER_HOME=/composer
 
-#USER root
-
 RUN apk add --no-cache \
     nano \
     bash \
@@ -25,7 +23,17 @@ RUN apk add --no-cache \
     nodejs \
     npm
 
-RUN sed -i 's/^listen = .*/listen = 9990/' /usr/local/etc/php-fpm.d/www.conf
+RUN docker-php-ext-configure gd \
+        --with-freetype=/usr/include/ \
+        --with-jpeg=/usr/include/ \
+    && docker-php-ext-install \
+        gd \
+        pdo \
+        pdo_mysql \
+        zip \
+        intl \
+        mbstring \
+        xml
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
@@ -33,7 +41,10 @@ WORKDIR /var/www/html/
 
 COPY ./app /var/www/html/
 
-RUN composer install --no-dev --optimize-autoloader
+RUN chown -R www-data:www-data /var/www/html \
+    && chmod -R 755 /var/www/html
+
+RUN composer install 
 
 EXPOSE 9990
 

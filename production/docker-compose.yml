@@ -42,14 +42,14 @@ services:
     networks:
       - portainer_networks
 
-  phpmyadmin:
+  portainer_phpmyadmin:
     image: phpmyadmin/phpmyadmin
-    container_name: phpmyadmin
+    container_name: portainer_phpmyadmin
     ports:
       - "8081:80"
     environment:
       PMA_HOST: database_mariadb
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root_username
     depends_on:
       - database_mariadb
     networks:
@@ -62,3 +62,5 @@ volumes:
 
 networks:
   portainer_networks:
+    external: true
+    name: portainer_networks

@@ -25,10 +25,8 @@ RUN apk add --no-cache \
     nodejs \
     npm
 
-# Ganti port PHP-FPM listen dari 9000 ke 9990
 RUN sed -i 's/^listen = .*/listen = 9990/' /usr/local/etc/php-fpm.d/www.conf
 
-# Copy Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html/

@@ -6,6 +6,7 @@ ENV COMPOSER_ALLOW_SUPERUSER=1 \
 #USER root
 
 RUN apk add --no-cache \
+    nano \
     bash \
     git \
     curl \
